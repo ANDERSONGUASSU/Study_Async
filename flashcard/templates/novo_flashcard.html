@@ -16,7 +16,7 @@
 			<div class="box-form">
 				<form action="" method="POST">
 					{% csrf_token %}
-					<h3>Novo flashcard {{ categorias }}</h3>
+					<h3>Novo flashcard</h3>
 					{% if messages %}
 					<br />
 					{% for message in messages %}
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 		<div class="col-md">
-			<form action="" method="GET">
+			<form action="{% url 'flashcard:novo_flashcard' %}" method="GET">
 				<div class="row">
 					<div class="col-md">
 						<label for="">Categoria</label>
@@ -98,23 +98,25 @@
 			<br />
 			<br />
 
-			<div class="box-new-flashcard">
-				<div class="flashcard">
-					<div class="flashcard-categoria">Matematica</div>
+			{% for flash in flashcards %}
+			<div class="box-new-flashcard" onclick="flip_card({{ flash.id }})">
+				<div class="flashcard {{flash.css_dificuldade}}">
+					<div class="flashcard-categoria">{{flash.categoria}}</div>
 
-					<a href=""><i class="icone-exit bx bx-x-circle"></i></a>
+					<a href="{% url "flashcard:deletar_flashcard" flash.id %}"><i class="icone-exit bx bx-x-circle"></i></a>
 					<br />
 					<br />
 					<div class="flashcard-box-item">
-						<p class="flashcard-item">1 + 1 = 2</p>
+						<p class="flashcard-item">{{flash.pergunta}}</p>
 					</div>
 				</div>
-				<div class="resposta-flashcard">Sim</div>
+				<div class="resposta-flashcard" id="{{flash.id}}">{{flash.resposta}}</div>
 			</div>
 			<br />
 			<br />
+			{% endfor %}
 		</div>
 	</div>
 </div>
-
+<script src="{% static "flashcard/js/flashcard.js" %}"></script>
 {% endblock 'conteudo' %}

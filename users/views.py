@@ -46,7 +46,7 @@ def login(request):
         if user:
             auth.login(request, user)
             messages.add_message(request, constants.SUCCESS, 'Logado')
-            return redirect('novo_flashcard')
+            return redirect('flashcard:novo_flashcard')
         else:
             messages.add_message(
                 request, constants.ERROR, 'Username ou senha inválidos'
